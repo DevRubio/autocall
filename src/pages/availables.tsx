@@ -1,3 +1,4 @@
+import { getDisponibles } from "@/api/apiDisponible"
 import { FormsDiponible } from "@/components/Forms/formsDisponible"
 import { columnsDisponibles } from "@/components/Table/columnsDisponibles"
 import { DataTable } from "@/components/Table/data-table"
@@ -15,12 +16,8 @@ export const Availables = () => {
   useEffect(()=>{
     const fetchData = async()=>{
       try {
-        const response = await fetch(`/api/disponible/read`)
-        if(!response.ok){
-          throw new Error(`Error: ${response.status} ${response.statusText}`)
-        }
-        const result = await response.json()
-        setData(result)
+        const data = await getDisponibles() 
+        setData(data)
       } catch (error) {
         console.log(error)
       }
