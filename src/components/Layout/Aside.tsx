@@ -10,7 +10,7 @@ export const Aside = () => {
     },
     {
       name: "Disponibles",
-      href: "./Availables",
+      href: "./availables",
       icon: TowerControl,
     },
     {
