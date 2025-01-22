@@ -1,7 +1,7 @@
 
 export const getLogCalls = async()=>{
     try {
-        const response = await fetch(`/api/disponible/read`)
+        const response = await fetch(`/api/logsllamadas/read`)
         if(!response.ok){
         throw new Error(`Error: ${response.status} ${response.statusText}`)
         }

@@ -1,15 +1,15 @@
 'use client'
 
-//import { addClient } from "../../../api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-//import { toast } from "sonner";
+import { toast } from "sonner";
 import { z } from "zod";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "../ui/input";
+import { addClient } from "@/api/apiClient";
 
 const formSchema = z.object({
     PartitionKey: z.string().min(2, { message: "El cliente es requerido" }),
@@ -31,7 +31,7 @@ export function FormsClient(){
         setFormClient(false)
         console.log("values", values)
         form.reset()
-/*         const PromiseAddClient = new Promise(async(resolve, reject)=>{
+        const PromiseAddClient = new Promise(async(resolve, reject)=>{
             try {
                 const response = await addClient(values)
                 resolve(response)
@@ -46,7 +46,7 @@ export function FormsClient(){
                 return "Cliente agregado con éxito"
             },
             error: 'Error al agregar el cliente'
-        }) */
+        })
     }
 
     return(
