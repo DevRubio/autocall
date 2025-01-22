@@ -1,7 +1,7 @@
 import { Aside } from "./components/Layout/Aside";
 import { Nav } from "./components/Layout/Nav";
 //import "./globals.css";
-//import { Toaster as SonnerToaster} from "@/components/ui/sonner"
+import { Toaster as SonnerToaster} from "@/components/ui/sonner"
 
 
 
@@ -25,7 +25,7 @@ export default function RootLayout({
                 <div className="w-full min-h-[calc(100vh-230px)]">
                   <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
                     {children}
-                    {/* <SonnerToaster/> */}
+                    <SonnerToaster/>
                   </div>
                 </div>
               </div>

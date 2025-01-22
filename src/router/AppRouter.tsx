@@ -1,9 +1,5 @@
 import RootLayout from "@/layout";
-import { Availables } from "@/pages/availables";
-import { Clients } from "@/pages/clients";
-import { Home } from "@/pages/home";
-import { LogsCalls } from "@/pages/logsCalls";
-import { Users } from "@/pages/users";
+import { Availables, Clients, Home, LogsCalls, Users } from "@/pages";
 import { Route, Routes } from "react-router-dom";
 
 export const AppRouter = () => {
