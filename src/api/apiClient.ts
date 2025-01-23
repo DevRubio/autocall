@@ -1,3 +1,5 @@
+import { Client } from "@/Interfaces/Clients"
+
 export const getCliente = async()=>{
     try {
         const response = await fetch("api/clientes/read")
@@ -29,3 +31,23 @@ export const addClient = async(data:object)=>{
         console.error(`Failed add client ${error}`)
     }
 }
+
+export const deleteClient = async (client: Client) => {    
+    const url = "`api/clientes/delete";
+    try {
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ PartitionKey: client.PartitionKey, RowKey: client.RowKey  }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete client");
+      }
+      return response;
+    } catch (error) {
+      console.log("Error", error);
+      throw new Error(`Failed to delete client ${error}`);
+    }
+  };

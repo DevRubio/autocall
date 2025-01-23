@@ -6,7 +6,6 @@ import { format } from "date-fns";
 import { v4 as uuidV4 } from "uuid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-//import { addDisponible } from "../../../api/apiDisponible";
 import {
   Dialog,
   DialogContent,
@@ -25,12 +24,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-
-//import { toast } from "sonner";
+import { toast } from "sonner";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { addDisponible } from "@/api/apiDisponible";
 
 const formSchema = z.object({
   PartitionKey: z
@@ -99,7 +98,7 @@ export function FormsDiponible({ data }: props) {
     newvalues.RowKey = uuidV4();
     setDialogOpen(false);
     form.reset();
-/*     const PromiseAddTower = new Promise(async (resolve, reject) => {
+    const PromiseAddTower = new Promise(async (resolve, reject) => {
       try {
         const response = await addDisponible(newvalues);
         resolve(response);
@@ -109,12 +108,12 @@ export function FormsDiponible({ data }: props) {
     });
 
     toast.promise(PromiseAddTower, {
-      loading: "Guardando Torre..",
+      loading: "Guardando Disponible..",
       success: () => {
-        return "Torre guardada correctamente";
+        return "Disponible guardado correctamente";
       },
-      error: "Error al guadar la torre",
-    }); */
+      error: "Error al guadar el disponible",
+    });
   }
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>

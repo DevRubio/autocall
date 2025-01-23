@@ -11,3 +11,23 @@ export const getDisponibles = async()=>{
         console.log(error)
     }
 }
+
+export const addDisponible = async (data: object) => {
+    
+    try {
+      const response = await fetch(`api/disponible/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+  
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to add data: ${response.statusText}`);
+      }
+      return response.json();
+    } catch (error) {
+      throw new Error(`Failed to add data ${error}`);
+    }
+  };
