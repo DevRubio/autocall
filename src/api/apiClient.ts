@@ -33,7 +33,7 @@ export const addClient = async(data:object)=>{
 }
 
 export const deleteClient = async (client: Client) => {    
-    const url = "`api/clientes/delete";
+    const url = "api/clientes/delete";
     try {
       const response = await fetch(url, {
         method: "DELETE",
