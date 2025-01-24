@@ -29,7 +29,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { addDisponible } from "@/api/apiDisponible";
+import { addData } from "@/api/apiCrud";
 
 const formSchema = z.object({
   PartitionKey: z
@@ -100,7 +100,7 @@ export function FormsDiponible({ data }: props) {
     form.reset();
     const PromiseAddTower = new Promise(async (resolve, reject) => {
       try {
-        const response = await addDisponible(newvalues);
+        const response = await addData('Disponibles',newvalues);
         resolve(response);
       } catch (error) {
         reject(error);

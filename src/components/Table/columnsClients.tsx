@@ -6,14 +6,14 @@ import { SorterIcon } from "./utils";
 import { Client } from '../../Interfaces/Clients';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { UserX } from "lucide-react";
-import { deleteClient } from "@/api/apiClient";
+import { deleteData } from "@/api/apiCrud";
 import { toast } from "sonner"
 
 const onDeleteUser = async (client: Client)=>{
     console.log('user a eliminar ,', client)  
     const promiseDeleteUser = new Promise(async (resolve, reject)=>{
       try {
-        const response = await deleteClient(client)
+        const response = await deleteData('Clientes', client.PartitionKey, client.RowKey)
         console.log("Respose ",response)
         resolve(response)
       } catch (error) {

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -27,8 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-//import { addUser } from "../../../api";
-//import { toast } from "sonner";
+import { addData } from "@/api/apiCrud";
 
 const formSchema = z.object({
   user_id: z.string().min(2, { message: "El usuario es requerido" }),
@@ -76,9 +76,9 @@ export function FormsUser({ data }: props) {
     setformUserOpen(false);
     form.reset();
     console.log(values)
-    /* const PromiseAdduser = new Promise(async (resolve, reject) => {
+    const PromiseAdduser = new Promise(async (resolve, reject) => {
       try {
-        const response = await addUser(values);
+        const response = await addData('Usuarios',values);
         resolve(response);
       } catch (error) {
         reject(error);
@@ -91,7 +91,7 @@ export function FormsUser({ data }: props) {
         return "Usuario guardado correctamente";
       },
       error: "Error al guadar el usuario",
-    }); */
+    });
   };
 
   return (

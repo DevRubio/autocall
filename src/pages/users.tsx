@@ -1,5 +1,4 @@
-import { getCliente } from "@/api/apiClient"
-import { getUser } from "@/api/apiUser"
+import { getData } from "@/api/apiCrud"
 import { FormsUser } from "@/components/Forms/formsUser"
 import { columnsUsers } from "@/components/Table/columnsUsers"
 import { DataTable } from "@/components/Table/data-table"
@@ -12,9 +11,9 @@ export const Users = () => {
   useEffect(()=>{
     const fetData = async()=>{
       try {
-        const data = await getUser()
-        const dataClients = await getCliente()
-        setUser(data)
+        const dataUser = await getData('Usuarios')
+        const dataClients = await getData('Clientes')
+        setUser(dataUser)
         setClients(dataClients)
       } catch (error) {
         console.log(error)

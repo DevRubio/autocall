@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from "../ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "../ui/input";
-import { addClient } from "@/api/apiClient";
+import { addData } from "@/api/apiCrud";
 
 const formSchema = z.object({
     PartitionKey: z.string().min(2, { message: "El cliente es requerido" }),
@@ -33,7 +33,7 @@ export function FormsClient(){
         form.reset()
         const PromiseAddClient = new Promise(async(resolve, reject)=>{
             try {
-                const response = await addClient(values)
+                const response = await addData('Clientes',values)
                 resolve(response)
             } catch (error) {
                 reject(error)
