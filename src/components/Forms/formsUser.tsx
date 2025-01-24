@@ -34,8 +34,8 @@ const formSchema = z.object({
   RowKey: z.string().min(2, { message: "El usuario es requerido" }),
   PartitionKey: z.string(),
   client: z.string().min(2, { message: "El cliente es requerido" }),
-  torre: z.string().min(2, { message: "La torre es requerida" }),
-  rol: z.string().min(2, { message: "Por favor seleccione un Rol" }),
+  Torre_Cliente: z.string().min(2, { message: "La torre es requerida" }),
+  Rol: z.string().min(2, { message: "Por favor seleccione un Rol" }),
   name: z.string().min(5, { message: "El nombre es requerido" }),
   password: z
     .string()
@@ -69,9 +69,9 @@ export function FormsUser({ data }: props) {
       PartitionKey: "Usuarios",
       RowKey: "",
       client: "",
-      torre: "",
+      Torre_Cliente: "",
       name: "",
-      rol: "",
+      Rol: "",
       password: "",
     },
   });
@@ -124,7 +124,7 @@ export function FormsUser({ data }: props) {
                   <Select
                     onValueChange={(value) => {
                       field.onChange(value); // Actualiza el campo PartitionKey
-                      form.resetField("torre"); // Resetea el campo RowKey (Torre)
+                      form.resetField("Torre_Cliente"); // Resetea el campo RowKey (Torre)
                     }}
                     value={field.value || ""}
                   >
@@ -149,7 +149,7 @@ export function FormsUser({ data }: props) {
             {/* Segundo Select para mostrar los RowKey basados en el PartitionKey seleccionado */}
             <FormField
               control={form.control}
-              name="torre"
+              name="Torre_Cliente"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Torre</FormLabel>
@@ -234,7 +234,7 @@ export function FormsUser({ data }: props) {
             {/*Rol */}
             <FormField
               control={form.control}
-              name="rol"
+              name="Rol"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Rol</FormLabel>
