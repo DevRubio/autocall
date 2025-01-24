@@ -1,6 +1,9 @@
 export type User={
-    user_id: string
-    client: string
-    Torre_Cliente: string
-    Rol: string
+    PartitionKey: string,
+    RowKey: string,
+    Rol: string,
+    Torre_Cliente: string,
+    client: string,
+    name: string,
+    password: string
 }

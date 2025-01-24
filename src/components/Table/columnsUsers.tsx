@@ -2,8 +2,8 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { User } from "@/Interfaces/User";
-//import { deleteUser } from "../../../api";
-//import { toast } from "sonner"
+import { deleteData } from "@/api/apiCrud";
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button";
 import { SorterIcon } from "./utils";
 import { UserX } from "lucide-react";
@@ -11,11 +11,11 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 
 
 
-const onDeleteUser = async (id : string)=>{
-  console.log('user a eliminar ,', id)  
-/*   const promiseDeleteUser = new Promise(async (resolve, reject)=>{
+const onDelete = async (data:User)=>{
+  
+  const promiseDeleteUser = new Promise(async (resolve, reject)=>{
     try {
-      const response = await deleteUser(id)
+      const response = await deleteData('Usuarios', data.PartitionKey, data.RowKey)
       console.log("Respose ",response)
       resolve(response)
     } catch (error) {
@@ -27,15 +27,15 @@ const onDeleteUser = async (id : string)=>{
   toast.promise(promiseDeleteUser,{
     loading: "Eliminando usuario..",
     success: () =>{
-      return `Usuario con id ${id} eliminado`
+      return `Usuario con id ${data.RowKey} eliminado`
     },
     error: 'Error al eliminar el usuario'
-  }) */
+  })
 }
 
 export const columnsUsers: ColumnDef<User>[] = [
   {
-    accessorKey: "user_id",
+    accessorKey: "RowKey",
     header: ({ column }) => {
       return (
         <Button
@@ -82,7 +82,7 @@ export const columnsUsers: ColumnDef<User>[] = [
             </Button>
           </DialogClose>
           <DialogClose asChild>
-            <Button type="button" onClick={()=>onDeleteUser(user.user_id)}>Aceptar</Button>
+            <Button type="button" onClick={()=>onDelete(user)}>Aceptar</Button>
           </DialogClose>
         </DialogFooter>
         </DialogContent>
