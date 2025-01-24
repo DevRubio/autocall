@@ -30,7 +30,7 @@ export const getData = async (Table_Name:string) => {
                 'Content-Type': 'application/json'
                 
             },
-            body: JSON.stringify({TableName: Table_Name, data: data})
+            body: JSON.stringify({TableName: Table_Name, Entity: data})
         })
         if(!response.ok){
             throw new Error(`Failed to add data ${Table_Name}`);
