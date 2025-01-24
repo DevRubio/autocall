@@ -5,6 +5,10 @@ import { format } from "date-fns";
 import { Disponible } from "@/Interfaces/Disponible"
 import { Button } from "@/components/ui/button"
 import { SorterIcon } from "./utils"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { UserX } from "lucide-react";
+import { deleteData } from "@/api/apiCrud";
+import { toast } from "sonner"
 
 function formatCell(cellPhone:number){
     const formatted = cellPhone
@@ -16,6 +20,27 @@ function formatCell(cellPhone:number){
     return formatted
 }
 
+const onDelete = async (data:Disponible)=>{
+  
+  const promiseDeleteUser = new Promise(async (resolve, reject)=>{
+    try {
+      const response = await deleteData('Disponibles', data.PartitionKey, data.RowKey)
+      console.log("Respose ",response)
+      resolve(response)
+    } catch (error) {
+      console.log("Error ",error)
+      reject(error)
+    }
+  })
+
+  toast.promise(promiseDeleteUser,{
+    loading: "Eliminando Disponible..",
+    success: () =>{
+      return `Disponible con id ${data.RowKey} eliminado`
+    },
+    error: 'Error al eliminar el Disponible'
+  })
+}
 
 export const columnsDisponibles: ColumnDef<Disponible>[] = [
   {
@@ -78,6 +103,32 @@ export const columnsDisponibles: ColumnDef<Disponible>[] = [
   },
   {
     id: "actions",
-    header:"Acciones"
-  }
+    header: "Acciones",    
+    cell: ({ row }) => {
+      const disponible = row.original;
+      return (
+        <Dialog>
+        <DialogTrigger><UserX/></DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>¿Estás completamente seguro?</DialogTitle>
+            <DialogDescription>
+              Esta acción no se puede deshacer. Eliminará permanentemente su usuario.
+            </DialogDescription>
+          </DialogHeader>
+        <DialogFooter>          
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Cancelar
+            </Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button type="button" onClick={()=>onDelete(disponible)}>Aceptar</Button>
+          </DialogClose>
+        </DialogFooter>
+        </DialogContent>
+      </Dialog>      
+      );
+    },
+  },
 ]
