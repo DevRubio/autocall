@@ -31,11 +31,12 @@ import {
 import { addData } from "@/api/apiCrud";
 
 const formSchema = z.object({
-  user_id: z.string().min(2, { message: "El usuario es requerido" }),
+  RowKey: z.string().min(2, { message: "El usuario es requerido" }),
+  PartitionKey: z.string(),
   client: z.string().min(2, { message: "El cliente es requerido" }),
   torre: z.string().min(2, { message: "La torre es requerida" }),
   rol: z.string().min(2, { message: "Por favor seleccione un Rol" }),
-
+  name: z.string().min(5, { message: "El nombre es requerido" }),
   password: z
     .string()
     .min(5, { message: "La contraseña debe tener minimo 5 caracteres" }),
@@ -65,9 +66,11 @@ export function FormsUser({ data }: props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      user_id: "",
+      PartitionKey: "Usuarios",
+      RowKey: "",
       client: "",
       torre: "",
+      name: "",
       rol: "",
       password: "",
     },
@@ -75,7 +78,6 @@ export function FormsUser({ data }: props) {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setformUserOpen(false);
     form.reset();
-    console.log(values)
     const PromiseAdduser = new Promise(async (resolve, reject) => {
       try {
         const response = await addData('Usuarios',values);
@@ -175,10 +177,27 @@ export function FormsUser({ data }: props) {
               )}
             />
 
-            {/*Client */}
+            
+            {/*Usuario */}
             <FormField
               control={form.control}
-              name="user_id"
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nombre</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Ingrese el nombre" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+
+            {/*Usuario */}
+            <FormField
+              control={form.control}
+              name="RowKey"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Usuario</FormLabel>

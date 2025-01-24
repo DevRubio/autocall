@@ -36,7 +36,7 @@ const onDelete = async (data:Disponible)=>{
   toast.promise(promiseDeleteUser,{
     loading: "Eliminando Disponible..",
     success: () =>{
-      return `Disponible con id ${data.RowKey} eliminado`
+      return `Disponible ${data.nombre_disponible} eliminado`
     },
     error: 'Error al eliminar el Disponible'
   })
