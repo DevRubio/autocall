@@ -11,7 +11,7 @@ export const Availables = () => {
   useEffect(()=>{
     const fetchData = async()=>{
       try {
-        const dataDisponible = await getData('Disponible') 
+        const dataDisponible = await getData('Disponibles') 
         setData(dataDisponible)
         const dataClient = await getData('Clientes')
         setDataclients(dataClient)
