@@ -1,7 +1,7 @@
 import { getData } from "@/api/apiCrud"
-import { FormsClient } from "@/components/Forms/formsClient"
-import { columnsClients } from "@/components/Table/columnsClients"
-import { DataTable } from "@/components/Table/data-table"
+import { FormsClient } from "@/autoCall/components/Forms/formsClient"
+import { columnsClients } from "@/autoCall/components/Table/columnsClients"
+import { DataTable } from "@/autoCall/components/Table/data-table"
 import { useEffect, useState } from "react"
 
 

@@ -1,6 +1,6 @@
 import { getData } from "@/api/apiCrud"
-import { columnsLogsCalls } from "@/components/Table/columnsLogsCalls"
-import { DataTable } from "@/components/Table/data-table"
+import { columnsLogsCalls } from "@/autoCall/components/Table/columnsLogsCalls"
+import { DataTable } from "@/autoCall/components/Table/data-table"
 import { useEffect, useState } from "react"
 
 

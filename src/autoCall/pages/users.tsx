@@ -1,7 +1,8 @@
 import { getData } from "@/api/apiCrud"
-import { FormsUser } from "@/components/Forms/formsUser"
-import { columnsUsers } from "@/components/Table/columnsUsers"
-import { DataTable } from "@/components/Table/data-table"
+import { getUsers } from "@/api/apiUser"
+import { FormsUser } from "@/autoCall/components/Forms/formsUser"
+import { columnsUsers } from "@/autoCall/components/Table/columnsUsers"
+import { DataTable } from "@/autoCall/components/Table/data-table"
 import { useEffect, useState } from "react"
 
 export const Users = () => {
@@ -11,7 +12,7 @@ export const Users = () => {
   useEffect(()=>{
     const fetData = async()=>{
       try {
-        const dataUser = await getData('Usuarios')
+        const dataUser = await getUsers()
         const dataClients = await getData('Clientes')
         setUser(dataUser)
         setClients(dataClients)

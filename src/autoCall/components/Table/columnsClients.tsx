@@ -1,10 +1,10 @@
 'use client'
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import { SorterIcon } from "./utils";
-import { Client } from '../../Interfaces/Clients';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Client } from '../Interfaces/Clients';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../../../components/ui/dialog";
 import { UserX } from "lucide-react";
 import { deleteData } from "@/api/apiCrud";
 import { toast } from "sonner"

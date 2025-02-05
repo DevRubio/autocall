@@ -1,22 +1,21 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { User } from "@/Interfaces/User";
-import { deleteData } from "@/api/apiCrud";
+import { User } from "@/autoCall/components/Interfaces/User";
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button";
 import { SorterIcon } from "./utils";
 import { UserX } from "lucide-react";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../../../components/ui/dialog";
+import { deleteUser } from "@/api/apiUser";
 
 
 
 const onDelete = async (data:User)=>{
-  
+  console.log("Usuario a eliminar", data.user_id)
   const promiseDeleteUser = new Promise(async (resolve, reject)=>{
     try {
-      const response = await deleteData('Usuarios', data.PartitionKey, data.RowKey)
-      console.log("Respose ",response)
+      const response = await deleteUser(data.user_id)
       resolve(response)
     } catch (error) {
       console.log("Error ",error)
@@ -27,7 +26,7 @@ const onDelete = async (data:User)=>{
   toast.promise(promiseDeleteUser,{
     loading: "Eliminando usuario..",
     success: () =>{
-      return `Usuario con id ${data.RowKey} eliminado`
+      return `Usuario con id ${data.user_id} eliminado`
     },
     error: 'Error al eliminar el usuario'
   })
@@ -35,7 +34,7 @@ const onDelete = async (data:User)=>{
 
 export const columnsUsers: ColumnDef<User>[] = [
   {
-    accessorKey: "RowKey",
+    accessorKey: "user_id",
     header: ({ column }) => {
       return (
         <Button

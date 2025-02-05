@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { LogCalls } from "@/Interfaces/LogCalls"
+import { LogCalls } from "@/autoCall/components/Interfaces/LogCalls"
 import { Button } from "@/components/ui/button"
 import { SorterIcon } from './utils'
 

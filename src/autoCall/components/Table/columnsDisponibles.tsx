@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns";
-import { Disponible } from "@/Interfaces/Disponible"
+import { Disponible } from "@/autoCall/components/Interfaces/Disponible"
 import { Button } from "@/components/ui/button"
 import { SorterIcon } from "./utils"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";

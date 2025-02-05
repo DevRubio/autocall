@@ -10,22 +10,22 @@ export const Aside = () => {
     },
     {
       name: "Disponibles",
-      href: "./availables",
+      href: "/availables",
       icon: TowerControl,
     },
     {
       name: "Llamadas",
-      href: "./logcalls",
+      href: "/logcalls",
       icon: Logs,
     },
     {
       name: "Usuarios",
-      href: "./users",
+      href: "/users",
       icon: User,
     },
     {
       name: "Clientes",
-      href: "./clients",
+      href: "/clients",
       icon: Users,
     },
   ];
@@ -44,7 +44,7 @@ export const Aside = () => {
                 links.map((link, index) => (
                   <li key={index}>
                     <NavLink
-                      className="capitalize text-gray-900 font-normal text-sm rounded-lg flex items-center p-1 hover:bg-gray-100 group"
+                      className={({isActive}) => `capitalize text-gray-900 font-normal text-sm rounded-lg flex items-center p-1 hover:bg-gray-100 group ${isActive ? 'bg-gray-100':''}`}
                       to={link.href}
                     >
                       {link.icon && <link.icon className="w-5 h-5 mr-2" />}

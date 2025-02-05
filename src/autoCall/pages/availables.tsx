@@ -1,7 +1,7 @@
 import { getData } from "@/api/apiCrud"
-import { FormsDiponible } from "@/components/Forms/formsDisponible"
-import { columnsDisponibles } from "@/components/Table/columnsDisponibles"
-import { DataTable } from "@/components/Table/data-table"
+import { FormsDiponible } from "@/autoCall/components/Forms/formsDisponible"
+import { columnsDisponibles } from "@/autoCall/components/Table/columnsDisponibles"
+import { DataTable } from "@/autoCall/components/Table/data-table"
 import { useEffect, useState } from "react"
 
 export const Availables = () => {

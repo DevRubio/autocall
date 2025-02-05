@@ -1,5 +1,5 @@
-import { Aside } from "./components/Layout/Aside";
-import { Nav } from "./components/Layout/Nav";
+import { Aside } from "./autoCall/components/Layout/Aside";
+import { Navbar } from "./autoCall/components/Layout/Navbar";
 //import "./globals.css";
 import { Toaster as SonnerToaster} from "@/components/ui/sonner"
 
@@ -13,7 +13,7 @@ export default function RootLayout({
   return (
     
       <div>
-        <Nav />
+        <Navbar />
         <div className="flex overflow-hidden bg-white pt-16">
           <Aside />
           <div
