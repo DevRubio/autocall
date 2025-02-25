@@ -66,7 +66,7 @@ const FormLogin = ({
           <CardTitle className="text-2xl">
             <div className="flex items-center justify-center gap-2 self-center font-semibold mb-4">
               <div className="flex h-8 w-8 hover:w-9 hover:h-9 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                <LucidePhoneCall className="size-4" />
+                <LucidePhoneCall className="size-4 animate-pulse" />
               </div>
               AutoCall
             </div>
