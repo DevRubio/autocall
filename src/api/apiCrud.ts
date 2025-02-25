@@ -1,9 +1,8 @@
 import Cookies from 'js-cookie';
 
-
-const token = Cookies.get('token');
-
 export const getData = async (Table_Name: string) => {
+
+  const token = Cookies.get('token');  
   const url = "/api/entity?code=oscar6frw45";
   try {
     const response = await fetch(url, {
@@ -29,6 +28,7 @@ export const getData = async (Table_Name: string) => {
 };
 
 export const getDataByFilter = async (Table_Name: string, Partion_key: string, Row_key:string) => {
+  const token = Cookies.get('token');
   const url = "/api/read";
   try {
     const response = await fetch(url, {
@@ -51,6 +51,7 @@ export const getDataByFilter = async (Table_Name: string, Partion_key: string, R
 };
 
 export const addData = async (Table_Name: string, data: object) => {
+  const token = Cookies.get('token');
   try {
     const response = await fetch(`api/entity?code=oscar6frw45`, {
       method: "POST",
@@ -71,6 +72,7 @@ export const addData = async (Table_Name: string, data: object) => {
 };
 
 export const updateData = async (Table_Name: string, data: object) => {
+  const token = Cookies.get('token');
   try {
     const response = await fetch(`api/update`, {
       method: "PUT",
@@ -95,6 +97,7 @@ export const deleteData = async (
   partitionKey: string,
   rowKey: string
 ) => {
+  const token = Cookies.get('token');
   const url = "api/entity?code=oscar6frw45";
   try {
     const response = await fetch(url, {
