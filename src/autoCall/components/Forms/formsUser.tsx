@@ -237,6 +237,7 @@ export function FormsUser({ data, onSuccess }: props ) {
                       <SelectItem value="FullAccessUser">FullAccessUser</SelectItem>
                       <SelectItem value="AdminUser">AdminUser</SelectItem>
                       <SelectItem value="FrontEndUser">FrontendUser</SelectItem>
+                      <SelectItem value="ReadOnlyFrontendUser">ReadOnlyFrontendUser</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
