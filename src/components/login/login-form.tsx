@@ -4,6 +4,7 @@ import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { loginSchema } from "@/lib/zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +23,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useContext, useState, useTransition } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "@/auth";
 import { useNavigate } from "react-router-dom";
 import { LucidePhoneCall } from "lucide-react";
@@ -34,9 +35,8 @@ const FormLogin = ({
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [loading, setLoading] = useState<boolean>(false);
 
-  
   // 1. Define your form.
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -48,27 +48,15 @@ const FormLogin = ({
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    /* console.log(values);
-    setError(null);
-    const response = await login(values.email, values.password);
-    console.log("FRespiuesta Login", response)
-    if(response === false){
-        console.log('Usuario o contraseña errada')
-        setError("DSD")        
-    } */
-  
-
-     startTransition(() => {
-      login(values.email, values.password).then(success => {        
-        console.log(success)  
-        if(!success){
-          setError("Usuario o contraseña incorrecta")
-        } else {
-          navigate("/", { replace: true });
-        }
-      });
+    setError('')
+    setLoading(true);
+    login(values.email, values.password).then((success) => {
+      if (!success) {
+        setError("Usuario o contraseña incorrecta");
+        setLoading(false);
+      } else {
+        navigate("/", { replace: true });
+      }
     });
   }
   return (
@@ -120,25 +108,34 @@ const FormLogin = ({
                     </FormControl>
                     <FormMessage />
                     <a
-                    href="#"
-                    className="text-sm flex text-center text-gray-400 justify-end underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
+                      href="#"
+                      className="text-sm flex text-center text-gray-400 justify-end underline-offset-4 hover:underline"
+                    >
+                      Forgot your password?
+                    </a>
                   </FormItem>
                 )}
               />
-              {error && <div className="text-center font-semibold"><FormMessage>{error}</FormMessage></div>}              
-                <div className="flex items-center justify-center gap-1">
-                    ¿No tienes una cuenta?{" "}
-                    <a href="#" className="underline underline-offset-4">
-                    Sign up
-                    </a>
+              {error && (
+                <div className="text-center font-semibold">
+                  <FormMessage>{error}</FormMessage>
                 </div>
+              )}
+              <div className="flex items-center justify-center gap-1">
+                ¿No tienes una cuenta?{" "}
+                <a href="#" className="underline underline-offset-4">
+                  Sign up
+                </a>
+              </div>
 
               <div className="flex items-center justify-center">
-                <Button type="submit" disabled={isPending}>
-                  Submit
+                <Button type="submit" disabled={loading}>
+                  {loading ? (
+                    <>
+                      <Loader2 className="animate-spin" />
+                      Iniciando Sesion
+                    </>
+                  ) : "Iniciar Sesion"}
                 </Button>
               </div>
             </form>
