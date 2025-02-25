@@ -12,7 +12,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": { // <- Cualquier ruta que empiece con "/api"
-        target: "https://apiautocall.azurewebsites.net", // <- Base URL del backend
+        target: "https://func-autocalldev.azurewebsites.net", // <- Base URL del backend
         changeOrigin: true,
       },
       "/auth":{
@@ -21,12 +21,12 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/auth/, "/api/Auth")
       },
       "/token":{
-        target: "https://authautocall.azurewebsites.net",
+        target: "https://func-autocalldev.azurewebsites.net",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/token/, "/api/token")
       },
       "/validToken":{
-        target: "https://authautocall.azurewebsites.net",
+        target: "https://func-autocalldev.azurewebsites.net",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/validToken/, "/api/validToken")
       },
@@ -34,12 +34,16 @@ export default defineConfig({
         target: "https://func-autocalldev.azurewebsites.net",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/get/, "/api/get")
-      }
-      ,
+      },
       "/delete":{
         target: "https://func-autocalldev.azurewebsites.net",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/delete/, "/api/delete")
+      },
+      "/registro":{
+        target: "https://func-autocalldev.azurewebsites.net",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/registro/, "/api/registro")
       }
     },
   },
