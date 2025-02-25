@@ -106,13 +106,7 @@ const FormLogin = ({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
-                    <a
-                      href="#"
-                      className="text-sm flex text-center text-gray-400 justify-end underline-offset-4 hover:underline"
-                    >
-                      Forgot your password?
-                    </a>
+                    <FormMessage />                    
                   </FormItem>
                 )}
               />
@@ -121,15 +115,8 @@ const FormLogin = ({
                   <FormMessage>{error}</FormMessage>
                 </div>
               )}
-              <div className="flex items-center justify-center gap-1">
-                ¿No tienes una cuenta?{" "}
-                <a href="#" className="underline underline-offset-4">
-                  Sign up
-                </a>
-              </div>
-
               <div className="flex items-center justify-center">
-                <Button type="submit" disabled={loading}>
+                <Button className="mt-4" type="submit" disabled={loading}>
                   {loading ? (
                     <>
                       <Loader2 className="animate-spin" />
