@@ -1,3 +1,6 @@
+import { User } from "@/autoCall/components/Interfaces/User";
+import Cookies from 'js-cookie';
+
 export const authUser = async (user: string, pass: string) => {
   try {
     const response = await fetch(
@@ -5,7 +8,7 @@ export const authUser = async (user: string, pass: string) => {
       {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json",         
         },
         body: JSON.stringify({ user_id: user, password: pass }),
       }
@@ -20,34 +23,85 @@ export const authUser = async (user: string, pass: string) => {
   }
 };
 
-export const getUsers = async () => {
+export const addUser = async (user: User) => {
+  const token = Cookies.get('token');
   try {
     const response = await fetch(
-      "/get?code=tNvorc19isHdagBgo4lpyiDwg9bQdIuMo_tlEBJdD-UvAzFuCueW5g%3D%3D",
+      "/registro?code=tNvorc19isHdagBgo4lpyiDwg9bQdIuMo_tlEBJdD-UvAzFuCueW5g%3D%3D",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ ...user }),
+      }
+    );
+    if (!response.ok) {
+      const errorData = await response.json()      
+      throw new Error(`${errorData.message}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(`Failed add user ${error}`);
+  }
+};
+
+export const getUsers = async () => {
+  const token = Cookies.get('token');
+  try {
+    const response = await fetch(
+      "/get?code=oscar6frw45",
       {
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`
         },
       }
     );
     if (!response.ok) {
-      throw new Error(`Failed to get data Users`);
+      const errorData = await response.json()      
+      throw new Error(`${errorData.message}`);
     }
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log("Error", `Failed to get data Users ${error}`);
     throw new Error(`Failed to get data Users ${error}`);
   }
 };
 
+export const getUserById = async(user:string)=>{
+  const token = Cookies.get('token');
+  try {
+    const response = await fetch("/get?code=tNvorc19isHdagBgo4lpyiDwg9bQdIuMo_tlEBJdD-UvAzFuCueW5g%3D%3D",
+      {
+        headers: {
+          "Content-Type" : "application/json",
+          authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({user_id: user})
+      }      
+    )
+    if (!response.ok) {
+      const errorData = await response.json()      
+      throw new Error(`${errorData.message}`);
+    }
+    const result = await response.json()
+    return result
+  } catch (error) {
+    console.log("Error", `Failed to get user ${error}`);
+    throw new Error(`Failed to get user ${error}`);
+  }
+}
+
 export const deleteUser = async (user: string) => {
-  const token = await generateToken()
+  const token = Cookies.get('token');  
   try {
     const response = await fetch(
-      "/delete?code=tNvorc19isHdagBgo4lpyiDwg9bQdIuMo_tlEBJdD-UvAzFuCueW5g%3D%3D",
+      "/delete?code=edwarqc",
       {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",          
           Authorization: `Bearer ${token}`
@@ -56,49 +110,12 @@ export const deleteUser = async (user: string) => {
       }
     );
     if (!response.ok) {
-      throw new Error("Failed delete user");
+      const errorData = await response.json()      
+      throw new Error(`${errorData.message}`);
     }
     const data = await response.json();
     return data;
   } catch (error) {
     throw new Error(`Failed delete user ${error}`);
-  }
-};
-
-export const generateToken = async () => {
-  try {
-    const response = await fetch("/token?code=teamdevautoCall", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user_id: "EDWARQC3", password: "soyedwar1234" }),
-    });
-    if (!response.ok) {
-      throw new Error("Usuario o Contraseña incorrecta");
-    }
-    const { token } = await response.json();
-    return token;
-  } catch (error) {
-    throw new Error(`Failed generateToken ${error}`);
-  }
-};
-
-export const validateToken = async (tokenValidate: string) => {
-  try {
-    const response = await fetch("/validToken?code=teamdevautoCall", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ token: tokenValidate }),
-    });
-    if (!response.ok) {
-      throw new Error("Usuario o Contraseña incorrecta");
-    }
-
-    return response;
-  } catch (error) {
-    throw new Error(`Failed generateToken ${error}`);
   }
 };

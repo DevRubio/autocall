@@ -3,6 +3,7 @@ import { types } from '../types/types.ts';
 interface User {
     Rol: string;
     user: string;
+    Token: string;
   }
 
 interface AuthState {
@@ -13,17 +14,17 @@ interface AuthState {
 
 interface AuthAction {
     type: string;
-    payload?: { user: User; token: string };
+    payload?: { user: User };
 }
 
-export const authReducer = (state: AuthState = { logged: false, user: null, token: null }, action: AuthAction): AuthState => {
+export const authReducer = (state: AuthState = { logged: false, user: null }, action: AuthAction): AuthState => {
     switch(action.type) {
         case types.login:
             return {
                 ...state,
                 logged: true,
                 user: action.payload?.user || null,
-                token: action.payload?.token || null,
+                token: action.payload?.user.Token || null,
             };
 
         case types.logout:

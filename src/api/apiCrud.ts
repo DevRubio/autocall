@@ -1,21 +1,30 @@
+import Cookies from 'js-cookie';
+
+
+const token = Cookies.get('token');
+
 export const getData = async (Table_Name: string) => {
-  const url = "/api/read";
+  const url = "/api/entity?code=oscar6frw45";
   try {
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ TableName: Table_Name }),
+      body: JSON.stringify({ table_name: Table_Name }),
     });
-    if (!response.ok) {
-      throw new Error(`Failed to get data ${Table_Name}`);
+    if(!response.ok) {
+      const errorData = await response.json()
+      if(errorData.message === "Invalid or missing token") {
+        console.log("token expirto")
+      }  
+      throw new Error(`${errorData.message}`);
     }
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log("Error", `Failed to get data ${Table_Name} ${error}`);
-    throw new Error(`Failed to get data ${Table_Name} ${error}`);
+    throw new Error(`Failed to get data on table ${Table_Name} ${error}`);
   }
 };
 
@@ -26,36 +35,38 @@ export const getDataByFilter = async (Table_Name: string, Partion_key: string, R
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${token}`
       },
       body: JSON.stringify({TableName: Table_Name, PartitionKey: Partion_key, RowKey: Row_key }),
     });
-    if (!response.ok) {
-      throw new Error(`Failed to get data ${Table_Name}`);
+    if(!response.ok) {
+      const errorData = await response.json()      
+      throw new Error(`${errorData.message}`);
     }
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log("Error", `Failed to get data ${Table_Name} ${error}`);
-    throw new Error(`Failed to get data ${Table_Name} ${error}`);
+    throw new Error(`Failed to get data on table ${Table_Name} ${error}`);
   }
 };
 
 export const addData = async (Table_Name: string, data: object) => {
   try {
-    const response = await fetch(`api/create`, {
+    const response = await fetch(`api/entity?code=oscar6frw45`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({ TableName: Table_Name, Entity: data }),
+      body: JSON.stringify({ table_name: Table_Name, entity: data }),
     });
-    if (!response.ok) {
-      throw new Error(`Failed to add data ${Table_Name}`);
+    if(!response.ok) {
+      const errorData = await response.json()      
+      throw new Error(`${errorData.message}`);
     }
-    return response.json();
+    return response;
   } catch (error) {
-    console.error(`Failed to add data ${Table_Name} ${error}`);
-    throw new Error(`Failed to add data ${Table_Name} ${error}`);
+    throw new Error(`Failed to add data on table ${error}`);
   }
 };
 
@@ -65,16 +76,17 @@ export const updateData = async (Table_Name: string, data: object) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${token}`
       },
       body: JSON.stringify({ TableName: Table_Name, data: data }),
     });
-    if (!response.ok) {
-      throw new Error(`Failed to update data ${Table_Name}`);
+    if(!response.ok) {
+      const errorData = await response.json()      
+      throw new Error(`${errorData.message}`);
     }
     return response.json();
   } catch (error) {
-    console.error(`Failed to update data ${Table_Name} ${error}`);
-    throw new Error(`Failed to update data ${Table_Name} ${error}`);
+    throw new Error(`Failed to update data on table ${Table_Name} ${error}`);
   }
 };
 
@@ -83,25 +95,26 @@ export const deleteData = async (
   partitionKey: string,
   rowKey: string
 ) => {
-  const url = "api/delete";
+  const url = "api/entity?code=oscar6frw45";
   try {
     const response = await fetch(url, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        TableName: Table_Name,
-        PartitionKey: partitionKey,
-        RowKey: rowKey,
+        table_name: Table_Name,
+        partition_key: partitionKey,
+        row_key: rowKey,
       }),
     });
-    if (!response.ok) {
-      throw new Error(`Failed to delete data ${Table_Name}`);
+    if(!response.ok) {
+      const errorData = await response.json()      
+      throw new Error(`${errorData.message}`);
     }
     return response;
   } catch (error) {
-    console.log(`Failed to delete data ${Table_Name} ${error}`);
-    throw new Error(`Failed to delete data ${Table_Name} ${error}`);
+    throw new Error(`Failed to delete data on table ${Table_Name} ${error}`);
   }
 };
