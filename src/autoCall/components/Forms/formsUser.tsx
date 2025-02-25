@@ -28,15 +28,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../components/ui/select";
-import { addData } from "@/api/apiCrud";
+import { addUser } from "@/api/apiUser";
 
 const formSchema = z.object({
-  RowKey: z.string().min(2, { message: "El usuario es requerido" }),
-  PartitionKey: z.string(),
+  user_id: z.string({ required_error: "User is required" }).min(1, "User is required").email("User must be an email address."),
   client: z.string().min(2, { message: "El cliente es requerido" }),
-  Torre_Cliente: z.string().min(2, { message: "La torre es requerida" }),
-  Rol: z.string().min(2, { message: "Por favor seleccione un Rol" }),
-  name: z.string().min(5, { message: "El nombre es requerido" }),
+  torre: z.string().min(2, { message: "La torre es requerida" }),
+  rol: z.string().min(2, { message: "Por favor seleccione un Rol" }),
   password: z
     .string()
     .min(5, { message: "La contraseña debe tener minimo 5 caracteres" }),
@@ -49,9 +47,10 @@ interface TowerData {
   
   interface props {
     data: TowerData[];
+    onSuccess:()=>void
   }
 
-export function FormsUser({ data }: props) {
+export function FormsUser({ data, onSuccess }: props ) {
   const [formUserOpen, setformUserOpen] = useState(false);
 
 
@@ -66,13 +65,11 @@ export function FormsUser({ data }: props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      PartitionKey: "Usuarios",
-      RowKey: "",
       client: "",
-      Torre_Cliente: "",
-      name: "",
-      Rol: "",
-      password: "",
+      user_id: "",
+      torre: "",
+      rol: "",
+      password: ""
     },
   });
   const onSubmit = (values: z.infer<typeof formSchema>) => {
@@ -80,7 +77,7 @@ export function FormsUser({ data }: props) {
     form.reset();
     const PromiseAdduser = new Promise(async (resolve, reject) => {
       try {
-        const response = await addData('Usuarios',values);
+        const response = await addUser(values);
         resolve(response);
       } catch (error) {
         reject(error);
@@ -90,9 +87,12 @@ export function FormsUser({ data }: props) {
     toast.promise(PromiseAdduser, {
       loading: "Guardando usuario..",
       success: () => {
+        onSuccess()
         return "Usuario guardado correctamente";
       },
-      error: "Error al guadar el usuario",
+      error: (error) => {
+        return `${error}`
+      }
     });
   };
 
@@ -124,7 +124,7 @@ export function FormsUser({ data }: props) {
                   <Select
                     onValueChange={(value) => {
                       field.onChange(value); // Actualiza el campo PartitionKey
-                      form.resetField("Torre_Cliente"); // Resetea el campo RowKey (Torre)
+                      form.resetField("torre"); // Resetea el campo (Torre)
                     }}
                     value={field.value || ""}
                   >
@@ -149,7 +149,7 @@ export function FormsUser({ data }: props) {
             {/* Segundo Select para mostrar los RowKey basados en el PartitionKey seleccionado */}
             <FormField
               control={form.control}
-              name="Torre_Cliente"
+              name="torre"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Torre</FormLabel>
@@ -178,26 +178,11 @@ export function FormsUser({ data }: props) {
             />
 
             
-            {/*Usuario */}
+            
+            {/*user_id */}
             <FormField
               control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nombre</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ingrese el nombre" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-
-            {/*Usuario */}
-            <FormField
-              control={form.control}
-              name="RowKey"
+              name="user_id"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Usuario</FormLabel>
@@ -234,7 +219,7 @@ export function FormsUser({ data }: props) {
             {/*Rol */}
             <FormField
               control={form.control}
-              name="Rol"
+              name="rol"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Rol</FormLabel>
@@ -249,7 +234,9 @@ export function FormsUser({ data }: props) {
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="BackendUser">BackendUser</SelectItem>
-                      <SelectItem value="FrontEndUser">FrontEndUser</SelectItem>
+                      <SelectItem value="FullAccessUser">FullAccessUser</SelectItem>
+                      <SelectItem value="AdminUser">AdminUser</SelectItem>
+                      <SelectItem value="FrontEndUser">FrontendUser</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />

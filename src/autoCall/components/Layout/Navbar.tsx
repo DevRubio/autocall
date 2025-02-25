@@ -10,10 +10,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Cookies from 'js-cookie';
 
 export const Navbar = () => {
-  const { user, logout } = useContext(AuthContext);
 
+  const { logout } = useContext(AuthContext);  
+  const userCookie = JSON.parse(Cookies.get('user') || "null")
+  const {user, Rol} = userCookie?.user? userCookie : {user: "", Rol: ""};
   const navigate = useNavigate();
 
   const onLogout = () => {
@@ -39,7 +42,7 @@ export const Navbar = () => {
           <div className="flex items-center">
             {/* User Avatar */}
             <div className="mr-2">
-              {user?.user}
+              {user}
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger>
@@ -52,8 +55,8 @@ export const Navbar = () => {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <div className="flex flex-col gap-2 w-11 mb-1">
-                  <span className="text-sm ml-2 flex gap-2"><p className="font-semibold">User:</p> {JSON.parse(localStorage.getItem("user") || "null") }</span>
-                  <span className="text-sm ml-2 flex gap-2"><p className="font-semibold">Profile:</p> {user?.Rol}</span>
+                  <span className="text-sm ml-2 flex gap-2"><p className="font-semibold">User:</p> {user}</span>
+                  <span className="text-sm ml-2 flex gap-2"><p className="font-semibold">Profile:</p> {Rol}</span>
                 </div>
                 <DropdownMenuItem onClick={onLogout} className="cursor-pointer">Logout</DropdownMenuItem>
               </DropdownMenuContent>

@@ -20,29 +20,34 @@ function formatCell(cellPhone:number){
     return formatted
 }
 
-const onDelete = async (data:Disponible)=>{
+
+
+export const columnsDisponibles = (fetchData: () => Promise<void>) => {
+  const onDelete = async (data:Disponible)=>{
   
-  const promiseDeleteUser = new Promise(async (resolve, reject)=>{
-    try {
-      const response = await deleteData('Disponibles', data.PartitionKey, data.RowKey)
-      console.log("Respose ",response)
-      resolve(response)
-    } catch (error) {
-      console.log("Error ",error)
-      reject(error)
-    }
-  })
+    const promiseDeleteUser = new Promise(async (resolve, reject)=>{
+      try {
+        const response = await deleteData('disponibles', data.PartitionKey, data.RowKey)        
+        await fetchData();
+        resolve(response)
+      } catch (error) {
+        console.log("Error ",error)
+        reject(error)
+      }
+    })
+  
+    toast.promise(promiseDeleteUser,{
+      loading: "Eliminando Disponible..",
+      success: () =>{
+        return `Disponible ${data.nombre_disponible} eliminado`
+      },
+      error: (error)=>{
+        return  `${error}`
+      }
+    })
+  }
 
-  toast.promise(promiseDeleteUser,{
-    loading: "Eliminando Disponible..",
-    success: () =>{
-      return `Disponible ${data.nombre_disponible} eliminado`
-    },
-    error: 'Error al eliminar el Disponible'
-  })
-}
-
-export const columnsDisponibles: ColumnDef<Disponible>[] = [
+  return[
   {
     accessorKey: "PartitionKey",
     header: ({ column }) => {
@@ -131,4 +136,5 @@ export const columnsDisponibles: ColumnDef<Disponible>[] = [
       );
     },
   },
-]
+] as ColumnDef<Disponible>[]
+}

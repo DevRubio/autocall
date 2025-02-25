@@ -65,10 +65,11 @@ interface TowerData {
 }
 
 interface props {
-  data: TowerData[];
+  data: TowerData[];  
+  onSuccess:()=>void
 }
 
-export function FormsDiponible({ data }: props) {
+export function FormsDiponible({ data, onSuccess }: props) {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const groupedData = data.reduce((acc: Record<string, string[]>, item) => {
@@ -100,7 +101,7 @@ export function FormsDiponible({ data }: props) {
     form.reset();
     const PromiseAddTower = new Promise(async (resolve, reject) => {
       try {
-        const response = await addData('Disponibles',newvalues);
+        const response = await addData('disponibles',newvalues);
         resolve(response);
       } catch (error) {
         reject(error);
@@ -110,9 +111,12 @@ export function FormsDiponible({ data }: props) {
     toast.promise(PromiseAddTower, {
       loading: "Guardando Disponible..",
       success: () => {
+        onSuccess()
         return "Disponible guardado correctamente";
       },
-      error: "Error al guadar el disponible",
+      error: (error)=>{
+        return `${error}`
+      }
     });
   }
   return (

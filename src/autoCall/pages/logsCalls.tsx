@@ -1,11 +1,13 @@
 import { getData } from "@/api/apiCrud"
+import { AuthContext } from "@/auth"
 import { columnsLogsCalls } from "@/autoCall/components/Table/columnsLogsCalls"
 import { DataTable } from "@/autoCall/components/Table/data-table"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 
 
 export const LogsCalls = () => {
   const [dataLogCalls, setDataLogCalls] = useState([])
+  const { logout } = useContext(AuthContext);  
 
   useEffect(()=>{
     const fetchData = async()=>{
@@ -14,6 +16,7 @@ export const LogsCalls = () => {
         setDataLogCalls(dataLogCalls)
       } catch (error) {
         console.log(error)
+        logout()
       }
     }
     fetchData()

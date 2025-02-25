@@ -9,29 +9,32 @@ import { UserX } from "lucide-react";
 import { deleteData } from "@/api/apiCrud";
 import { toast } from "sonner"
 
-const onDeleteUser = async (client: Client)=>{
-    console.log('user a eliminar ,', client)  
-    const promiseDeleteUser = new Promise(async (resolve, reject)=>{
-      try {
-        const response = await deleteData('Clientes', client.PartitionKey, client.RowKey)
-        console.log("Respose ",response)
-        resolve(response)
-      } catch (error) {
-        console.log("Error ",error)
-        reject(error)
-      }
-    })
-  
-    toast.promise(promiseDeleteUser,{
-      loading: "Eliminando cliente..",
-      success: () =>{
-        return `Cliente con id ${client.PartitionKey} eliminado`
-      },
-      error: 'Error al eliminar el usuario'
-    })
-  }
 
-export const columnsClients: ColumnDef<Client>[] = [
+export const columnsClients =(fetchData: () => Promise<void>) =>{
+  
+  const onDeleteUser = async (client: Client)=>{
+      const promiseDeleteUser = new Promise(async (resolve, reject)=>{
+        try {
+          const response = await deleteData('Clientes', client.PartitionKey, client.RowKey)
+          await fetchData()
+          resolve(response)
+        } catch (error) {
+          console.log("Error ",error)
+          reject(error)
+        }
+      })
+    
+      toast.promise(promiseDeleteUser,{
+        loading: "Eliminando cliente..",
+        success: () =>{
+          return `Cliente con id ${client.PartitionKey} eliminado`
+        },
+        error: (err)=>{
+          return  `${err}`
+        }
+      })
+    }
+  return [
     {
         accessorKey: "PartitionKey",
         header: ({ column }) => {
@@ -80,4 +83,5 @@ export const columnsClients: ColumnDef<Client>[] = [
           );
         },
       },
-]
+] as ColumnDef<Client>[]
+}

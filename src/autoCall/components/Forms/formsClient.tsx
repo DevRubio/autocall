@@ -16,7 +16,11 @@ const formSchema = z.object({
     RowKey: z.string().min(2, { message: "La torre es requerida" })
 })
 
-export function FormsClient(){
+interface props {
+    onSuccess:()=>void
+}
+
+export function FormsClient({ onSuccess }: props){
     const [formclient, setFormClient] = useState(false)
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -29,13 +33,13 @@ export function FormsClient(){
 
     const onSubmit = (values: z.infer<typeof formSchema>)=>{
         setFormClient(false)
-        console.log("values", values)
         form.reset()
         const PromiseAddClient = new Promise(async(resolve, reject)=>{
             try {
                 const response = await addData('Clientes',values)
                 resolve(response)
             } catch (error) {
+                console.log("Error al agregar el cliente", error)
                 reject(error)
             }
         })
@@ -43,9 +47,12 @@ export function FormsClient(){
         toast.promise(PromiseAddClient,{
             loading: 'Agregando Cliente...',
             success:()=>{
+                onSuccess();
                 return "Cliente agregado con éxito"
             },
-            error: 'Error al agregar el cliente'
+            error: (error)=>{
+                return `${error}`
+            }
         })
     }
 
