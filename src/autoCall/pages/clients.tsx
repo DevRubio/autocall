@@ -4,6 +4,7 @@ import { FormsClient } from "@/autoCall/components/Forms/formsClient";
 import { columnsClients } from "@/autoCall/components/Table/columnsClients";
 import { DataTable } from "@/autoCall/components/Table/data-table";
 import { useCallback, useContext, useEffect, useState } from "react";
+import { Client } from '../components/Interfaces/Clients';
 
 export const Clients = () => {
   const [dataClients, setDataclients] = useState([]);
@@ -12,7 +13,10 @@ export const Clients = () => {
   const fetchData = useCallback(async () => {
     try {
       const dataClient = await getData("Clientes");
-      setDataclients(dataClient);
+      const newData = dataClient.map(({ PartitionKey: Client, RowKey: Torre }: Client) => {
+        return { Client, Torre }
+      })
+      setDataclients(newData);
     } catch (error) {
       console.log(error);
       logout()
@@ -28,7 +32,7 @@ export const Clients = () => {
       <DataTable
         columns={columnsClients(fetchData)}
         data={dataClients}
-        filter="PartitionKey"
+        filter="Client"
       />
     </div>
   );

@@ -81,7 +81,7 @@ export function DataTable<TData, TValue, TExtraProps>({
       <div className="flex items-center py-4">
         
         <Input
-          placeholder="Filter first column..."
+          placeholder={`Buscar por ${filter}...`}
           value={
             (table.getColumn(`${filter}`)?.getFilterValue() as string) ?? ""
           }

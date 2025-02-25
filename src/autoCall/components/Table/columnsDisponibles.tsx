@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { format } from "date-fns";
-import { Disponible } from "@/autoCall/components/Interfaces/Disponible"
+import { newDataDisponible } from "@/autoCall/components/Interfaces/Disponible"
 import { Button } from "@/components/ui/button"
 import { SorterIcon } from "./utils"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -23,11 +23,12 @@ function formatCell(cellPhone:number){
 
 
 export const columnsDisponibles = (fetchData: () => Promise<void>) => {
-  const onDelete = async (data:Disponible)=>{
-  
+
+
+  const onDelete = async (data:newDataDisponible)=>{  
     const promiseDeleteUser = new Promise(async (resolve, reject)=>{
       try {
-        const response = await deleteData('disponibles', data.PartitionKey, data.RowKey)        
+        const response = await deleteData('disponibles', data.Torre, data.RowKey)        
         await fetchData();
         resolve(response)
       } catch (error) {
@@ -49,7 +50,7 @@ export const columnsDisponibles = (fetchData: () => Promise<void>) => {
 
   return[
   {
-    accessorKey: "PartitionKey",
+    accessorKey: "Torre",
     header: ({ column }) => {
         return (
           <Button
@@ -87,22 +88,22 @@ export const columnsDisponibles = (fetchData: () => Promise<void>) => {
     header: "Correo"
   },
   {
-    accessorKey: "excluir",
+    accessorKey: "Alertas_Excluidas",
     header:"Alertas Excluidas"
   },
   {
-    accessorKey: "inicioDispo",
+    accessorKey: "Inicio_Disponibilidad",
     header:"Inicio Disponibilidad",
     cell: ({ row }) => {
-        const date = row.getValue("inicioDispo");
+        const date = row.getValue("Inicio_Disponibilidad");
         return <div>{format(date as Date, "dd/MM/yyyy")}</div>;
     }
   },
   {
-    accessorKey: "finDispo",
+    accessorKey: "Fin_Disponibilidad",
     header:"Fin Disponibilidad",
     cell: ({row})=>{
-      const date = row.getValue("finDispo");
+      const date = row.getValue("Fin_Disponibilidad");
       return <div>{format(date as Date, "dd/MM/yyy")}</div>
     }
   },
@@ -136,5 +137,5 @@ export const columnsDisponibles = (fetchData: () => Promise<void>) => {
       );
     },
   },
-] as ColumnDef<Disponible>[]
+] as ColumnDef<newDataDisponible>[]
 }

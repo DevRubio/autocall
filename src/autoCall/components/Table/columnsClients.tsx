@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../../../components/ui/button";
 import { SorterIcon } from "./utils";
-import { Client } from '../Interfaces/Clients';
+import { NewDataClient } from '../Interfaces/Clients';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../../../components/ui/dialog";
 import { UserX } from "lucide-react";
 import { deleteData } from "@/api/apiCrud";
@@ -12,10 +12,10 @@ import { toast } from "sonner"
 
 export const columnsClients =(fetchData: () => Promise<void>) =>{
   
-  const onDeleteUser = async (client: Client)=>{
+  const onDeleteUser = async (client: NewDataClient)=>{
       const promiseDeleteUser = new Promise(async (resolve, reject)=>{
         try {
-          const response = await deleteData('Clientes', client.PartitionKey, client.RowKey)
+          const response = await deleteData('Clientes', client.Client, client.Torre)
           await fetchData()
           resolve(response)
         } catch (error) {
@@ -27,7 +27,7 @@ export const columnsClients =(fetchData: () => Promise<void>) =>{
       toast.promise(promiseDeleteUser,{
         loading: "Eliminando cliente..",
         success: () =>{
-          return `Cliente con id ${client.PartitionKey} eliminado`
+          return `Cliente con id ${client.Client} eliminado`
         },
         error: (err)=>{
           return  `${err}`
@@ -36,7 +36,7 @@ export const columnsClients =(fetchData: () => Promise<void>) =>{
     }
   return [
     {
-        accessorKey: "PartitionKey",
+        accessorKey: "Client",
         header: ({ column }) => {
             return (
                 <Button
@@ -50,7 +50,7 @@ export const columnsClients =(fetchData: () => Promise<void>) =>{
         }
     },
     {
-        accessorKey : 'RowKey',
+        accessorKey : 'Torre',
         header: 'Torre Cliente'
     },
     {
@@ -83,5 +83,5 @@ export const columnsClients =(fetchData: () => Promise<void>) =>{
           );
         },
       },
-] as ColumnDef<Client>[]
+] as ColumnDef<NewDataClient>[]
 }

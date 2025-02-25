@@ -1,13 +1,13 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { LogCalls } from "@/autoCall/components/Interfaces/LogCalls"
+import { NewDataLogCalls } from "@/autoCall/components/Interfaces/LogCalls"
 import { Button } from "@/components/ui/button"
 import { SorterIcon } from './utils'
 
-export const columnsLogsCalls: ColumnDef<LogCalls>[] = [
+export const columnsLogsCalls: ColumnDef<NewDataLogCalls>[] = [
   {
-    accessorKey: "PartitionKey",
+    accessorKey: "Torre",
     header: ({ column }) => {
         return (
           <Button
@@ -21,7 +21,7 @@ export const columnsLogsCalls: ColumnDef<LogCalls>[] = [
       },
   },
   {
-    accessorKey: "Date",
+    accessorKey: "Fecha",
     header: ({column})=>{
       return(
         <Button
@@ -39,15 +39,15 @@ export const columnsLogsCalls: ColumnDef<LogCalls>[] = [
     header: "Log Content"
   },
   {
-    accessorKey: "Name",
+    accessorKey: "Disponible",
     header: "Disponible"
   },
   {
     accessorKey: "Reason",
-    header: "Rason"
+    header: "Reason"
   },
   {
-    accessorKey: "status",
+    accessorKey: "Estado",
     header:"Estado"
   }
 ]

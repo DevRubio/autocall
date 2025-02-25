@@ -14,10 +14,7 @@ export const getData = async (Table_Name: string) => {
       body: JSON.stringify({ table_name: Table_Name }),
     });
     if(!response.ok) {
-      const errorData = await response.json()
-      if(errorData.message === "Invalid or missing token") {
-        console.log("token expirto")
-      }  
+      const errorData = await response.json()      
       throw new Error(`${errorData.message}`);
     }
     const result = await response.json();
