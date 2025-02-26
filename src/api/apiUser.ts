@@ -1,10 +1,17 @@
 import { User } from "@/autoCall/components/Interfaces/User";
 import Cookies from 'js-cookie';
 
+const URL_API = import.meta.env.VITE_API_URL;
+
+if(!URL_API){
+  console.log("Error", "No se ha encontrado la URL de la API")
+  throw new Error("No se ha encontrado la URL de la API")
+}
+
 export const authUser = async (user: string, pass: string) => {
   try {
     const response = await fetch(
-      "/auth?code=tNvorc19isHdagBgo4lpyiDwg9bQdIuMo_tlEBJdD-UvAzFuCueW5g%3D%3D",
+      `${URL_API}/auth?code=oscar6frw45`,
       {
         method: "POST",
         headers: {
@@ -27,7 +34,7 @@ export const addUser = async (user: User) => {
   const token = Cookies.get('token');
   try {
     const response = await fetch(
-      "/registro?code=tNvorc19isHdagBgo4lpyiDwg9bQdIuMo_tlEBJdD-UvAzFuCueW5g%3D%3D",
+      `${URL_API}/registro?code=oscar6frw45`,
       {
         method: "POST",
         headers: {
@@ -52,7 +59,7 @@ export const getUsers = async () => {
   const token = Cookies.get('token');
   try {
     const response = await fetch(
-      "/get?code=oscar6frw45",
+      `${URL_API}/get?code=oscar6frw45`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +81,7 @@ export const getUsers = async () => {
 export const getUserById = async(user:string)=>{
   const token = Cookies.get('token');
   try {
-    const response = await fetch("/get?code=tNvorc19isHdagBgo4lpyiDwg9bQdIuMo_tlEBJdD-UvAzFuCueW5g%3D%3D",
+    const response = await fetch(`${URL_API}/get?code=oscar6frw45`,
       {
         headers: {
           "Content-Type" : "application/json",
@@ -99,7 +106,7 @@ export const deleteUser = async (user: string) => {
   const token = Cookies.get('token');  
   try {
     const response = await fetch(
-      "/delete?code=edwarqc",
+      `${URL_API}/delete?code=oscar6frw45`,
       {
         method: "DELETE",
         headers: {

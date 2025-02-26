@@ -1,7 +1,13 @@
+const URL_API = import.meta.env.VITE_API_URL;
+
+if(!URL_API){
+  console.log("Error", "No se ha encontrado la URL de la API")
+  throw new Error("No se ha encontrado la URL de la API")
+}
 
 export const generateToken = async (user:string, pass: string) => {
     try {
-      const response = await fetch("/token?code=oscar6frw45", {
+      const response = await fetch(`${URL_API}/token?code=oscar6frw45`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,7 +27,7 @@ export const generateToken = async (user:string, pass: string) => {
   export const validateToken = async (tokenValidate: string | undefined) => {
     
     try {
-      const response = await fetch("/validToken?code=oscar6frw45", {
+      const response = await fetch(`${URL_API}/validToken?code=oscar6frw45`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

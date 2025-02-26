@@ -1,11 +1,18 @@
 import Cookies from 'js-cookie';
 
+const URL_API = import.meta.env.VITE_API_URL;
+
+if(!URL_API){
+  console.log("Error", "No se ha encontrado la URL de la API")
+  throw new Error("No se ha encontrado la URL de la API")
+}
+
 export const getData = async (Table_Name: string) => {
 
   const token = Cookies.get('token');  
-  const url = "/api/entity?code=oscar6frw45";
+  
   try {
-    const response = await fetch(url, {
+    const response = await fetch(`${URL_API}/entity?code=oscar6frw45`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,10 +32,9 @@ export const getData = async (Table_Name: string) => {
 };
 
 export const getDataByFilter = async (Table_Name: string, Partion_key: string, Row_key:string) => {
-  const token = Cookies.get('token');
-  const url = "/api/read";
+  const token = Cookies.get('token'); 
   try {
-    const response = await fetch(url, {
+    const response = await fetch(`${URL_API}/read`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,7 +56,7 @@ export const getDataByFilter = async (Table_Name: string, Partion_key: string, R
 export const addData = async (Table_Name: string, data: object) => {
   const token = Cookies.get('token');
   try {
-    const response = await fetch(`api/entity?code=oscar6frw45`, {
+    const response = await fetch(`${URL_API}/entity?code=oscar6frw45`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +77,7 @@ export const addData = async (Table_Name: string, data: object) => {
 export const updateData = async (Table_Name: string, data: object) => {
   const token = Cookies.get('token');
   try {
-    const response = await fetch(`api/update`, {
+    const response = await fetch(`${URL_API}/update?code=oscar6frw45`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -95,9 +101,9 @@ export const deleteData = async (
   rowKey: string
 ) => {
   const token = Cookies.get('token');
-  const url = "api/entity?code=oscar6frw45";
+  
   try {
-    const response = await fetch(url, {
+    const response = await fetch(`${URL_API}/entity?code=oscar6frw45`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
