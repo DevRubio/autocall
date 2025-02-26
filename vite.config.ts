@@ -9,6 +9,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    outDir: 'build'
+  },
   server: {
     proxy: {
       "/api": { // <- Cualquier ruta que empiece con "/api"
