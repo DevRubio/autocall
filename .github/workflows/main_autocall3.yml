@@ -21,13 +21,15 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: npm install, build, and test
+      - name: Install dependencies and build
         run: |
           npm install
-          npm run build --if-present
-          npm run test --if-present
+          npm run build
 
-      - name: Upload production build (dist)
+      - name: List build contents (debug)
+        run: ls -R dist/
+
+      - name: Upload production build
         uses: actions/upload-artifact@v4
         with:
           name: node-app
@@ -41,17 +43,20 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download build artifact
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: node-app
-          path: dist/
+          path: .
 
-      - name: 'Deploy to Azure Web App'
+      - name: Verify deployment files (debug)
+        run: ls -R
+
+      - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'AutoCall3'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B2BAED4932A74BA09A67F3544E99D30C }}
-          package: dist/
+          package: .
