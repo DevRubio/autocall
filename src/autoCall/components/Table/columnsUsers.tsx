@@ -8,8 +8,10 @@ import { SorterIcon } from "./utils";
 import { UserX } from "lucide-react";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../../../components/ui/dialog";
 import { deleteUser } from "@/api/apiUser";
+import { usePermissions } from "@/auth/Permissions/usePermissions";
 
 export const columnsUsers = (fetchData: () => Promise<void>) => {
+  const { hasPermission } = usePermissions()
   const onDelete = async (data: User) => {
     const promiseDeleteUser = new Promise(async (resolve, reject) => {
       try {
@@ -63,32 +65,34 @@ export const columnsUsers = (fetchData: () => Promise<void>) => {
     },
     {
       id: "actions",
-      header: "Acciones",
+      header: hasPermission('users', 'delete') ? "Acciones" : '',
       cell: ({ row }) => {
-        const user = row.original;
-        return (
-          <Dialog>
-            <DialogTrigger><UserX /></DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>¿Estás completamente seguro?</DialogTitle>
-                <DialogDescription>
-                  Esta acción no se puede deshacer. Eliminará permanentemente su usuario.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button type="button" variant="secondary">
-                    Cancelar
-                  </Button>
-                </DialogClose>
-                <DialogClose asChild>
-                  <Button type="button" onClick={() => onDelete(user)}>Aceptar</Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        );
+        if(hasPermission('users', 'delete')){
+          const user = row.original;
+          return (
+            <Dialog>
+              <DialogTrigger><UserX /></DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>¿Estás completamente seguro?</DialogTitle>
+                  <DialogDescription>
+                    Esta acción no se puede deshacer. Eliminará permanentemente su usuario.
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button type="button" variant="secondary">
+                      Cancelar
+                    </Button>
+                  </DialogClose>
+                  <DialogClose asChild>
+                    <Button type="button" onClick={() => onDelete(user)}>Aceptar</Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          );
+        }
       },
     },
   ] as ColumnDef<User>[]

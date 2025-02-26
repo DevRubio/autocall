@@ -1,49 +1,12 @@
+import { RouteType } from '@/autoCall/components/Interfaces/RouteType';
 import Cookies from 'js-cookie';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo} from 'react';
+import { RolPermissions } from './roles';
+
 
 type Rol = keyof typeof RolPermissions;
-type Route = keyof RoutePermissions;
-type Action = 'create' | 'read' | 'update' | 'delete' | 'reset_password';
-
-interface RoutePermissions {
-  [key: string]: string[] | boolean;
-}
-
-interface RolPermissions {
-  [key: string]: {
-    [route: string]: string[] | boolean;
-  };
-}
-
-
-const RolPermissions: RolPermissions = {
-  FrontEndUser: {
-    availables: ['create', 'read', 'update', 'delete'],
-    users: ['create', 'read', 'update', 'delete'],
-    clients: ['create', 'read', 'update', 'delete']
-  },
-  BackendUser: {
-    logcalls: ['read']
-  },
-  FullAccessUser: {
-    availables: ['create', 'read', 'update', 'delete'],
-    users: ['create', 'read', 'update', 'delete'],
-    clients: ['create', 'read', 'update', 'delete'],
-    logcalls: ['read']
-  },
-  ReadOnlyFrontendUser: {
-    availables: ['read'],
-    users: ['read'],
-    clients: ['read']
-  },
-  AdminUser: {
-    availables: ['create', 'read', 'update', 'delete'],
-    users: ['create', 'read', 'update', 'delete'],
-    clients: ['create', 'read', 'update', 'delete'],
-    logcalls: ['read'],
-    reset_password: true
-  }
-};
+type Route = RouteType;
+type Action = 'create' | 'read' | 'update' | 'delete';
 
 
 const memoizedUser = () => {
@@ -55,11 +18,8 @@ export const usePermissions = () => {
   const user = memoizedUser();
 
   const hasPermission = useCallback((route: Route, action: Action): boolean => {
-    if (!user?.Rol) return false;
-    
-    if (action === 'reset_password') {
-      return user.Rol === 'AdminUser' && !!RolPermissions[user.Rol][route];
-    }
+    if (!user?.Rol) return false;   
+   
 
     const allowedActions = RolPermissions[user.Rol]?.[route];
     return Array.isArray(allowedActions) ? allowedActions.includes(action) : false;
@@ -67,7 +27,7 @@ export const usePermissions = () => {
 
   const canAccessRoute = useCallback((route: Route): boolean => {
     if (!user?.Rol) return false;
-    return Object.keys(RolPermissions[user.Rol]).includes(String(route));
+    return route === "/" || Object.keys(RolPermissions[user.Rol]).includes(route);
   }, [user?.Rol]);
 
   return useMemo(() => ({
@@ -75,6 +35,5 @@ export const usePermissions = () => {
     canAccessRoute
   }), [hasPermission, canAccessRoute]);
 };
-
 
 export type { Rol, Route, Action };

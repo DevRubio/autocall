@@ -51,11 +51,11 @@ export const Navbar = () => {
                   SWO
                 </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="w-36">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <div className="flex flex-col gap-2 w-11 mb-1">
-                  <span className="text-sm ml-2 flex gap-2"><p className="font-semibold">User:</p> {user}</span>
+                <div className="flex flex-col gap-2 w-36 mb-1">
+                  <span className="text-sm ml-2 flex gap-2 text-wrap"><p className="font-semibold">User:</p> {user}</span>
                   <span className="text-sm ml-2 flex gap-2"><p className="font-semibold">Profile:</p> {Rol}</span>
                 </div>
                 <DropdownMenuItem onClick={onLogout} className="cursor-pointer">Logout</DropdownMenuItem>

@@ -1,34 +1,9 @@
-import { Home, Logs, TowerControl, User, Users } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useNavigationLinks } from "./useNavigationLinks";
 
-export const Aside = () => {
-  const links = [
-    {
-      name: "Inicio",
-      href: "../",
-      icon: Home,
-    },
-    {
-      name: "Disponibles",
-      href: "/availables",
-      icon: TowerControl,
-    },
-    {
-      name: "Llamadas",
-      href: "/logcalls",
-      icon: Logs,
-    },
-    {
-      name: "Usuarios",
-      href: "/users",
-      icon: User,
-    },
-    {
-      name: "Clientes",
-      href: "/clients",
-      icon: Users,
-    },
-  ];
+export const Aside = () => { 
+
+  const links = useNavigationLinks();
 
   return (
     <aside

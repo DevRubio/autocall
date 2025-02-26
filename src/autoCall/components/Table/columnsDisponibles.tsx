@@ -112,7 +112,7 @@ export const columnsDisponibles = (fetchData: () => Promise<void>) => {
 
   {
     id: "actions",
-    header: "Acciones",    
+    header: hasPermission('availables', 'delete') ? "Acciones" : '',
     cell: ({ row }) => {
       const disponible = row.original;
       if(hasPermission('availables', 'delete')){

@@ -8,11 +8,15 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, Di
 import { UserX } from "lucide-react";
 import { deleteData } from "@/api/apiCrud";
 import { toast } from "sonner"
+import { usePermissions } from "@/auth/Permissions/usePermissions";
 
 
 export const columnsClients =(fetchData: () => Promise<void>) =>{
+
+  const { hasPermission } = usePermissions()
   
   const onDeleteUser = async (client: NewDataClient)=>{
+
       const promiseDeleteUser = new Promise(async (resolve, reject)=>{
         try {
           const response = await deleteData('Clientes', client.Client, client.Torre)
@@ -55,32 +59,34 @@ export const columnsClients =(fetchData: () => Promise<void>) =>{
     },
     {
         id: "actions",
-        header: "Acciones",    
+        header: hasPermission('clients','delete') ? "Acciones" : "",
         cell: ({ row }) => {
-          const client = row.original;
-          return (
-            <Dialog>
-            <DialogTrigger><UserX/></DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>¿Estás completamente seguro?</DialogTitle>
-                <DialogDescription>
-                  Esta acción no se puede deshacer. Eliminará permanentemente su usuario.
-                </DialogDescription>
-              </DialogHeader>
-            <DialogFooter>          
-              <DialogClose asChild>
-                <Button type="button" variant="secondary">
-                  Cancelar
-                </Button>
-              </DialogClose>
-              <DialogClose asChild>
-                <Button type="button" onClick={()=>onDeleteUser(client)}>Aceptar</Button>
-              </DialogClose>
-            </DialogFooter>
-            </DialogContent>
-          </Dialog>      
-          );
+          if(hasPermission('clients','delete')){
+            const client = row.original;
+            return (
+              <Dialog>
+              <DialogTrigger><UserX/></DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>¿Estás completamente seguro?</DialogTitle>
+                  <DialogDescription>
+                    Esta acción no se puede deshacer. Eliminará permanentemente su usuario.
+                  </DialogDescription>
+                </DialogHeader>
+              <DialogFooter>          
+                <DialogClose asChild>
+                  <Button type="button" variant="secondary">
+                    Cancelar
+                  </Button>
+                </DialogClose>
+                <DialogClose asChild>
+                  <Button type="button" onClick={()=>onDeleteUser(client)}>Aceptar</Button>
+                </DialogClose>
+              </DialogFooter>
+              </DialogContent>
+            </Dialog>      
+            );
+          }
         },
       },
 ] as ColumnDef<NewDataClient>[]

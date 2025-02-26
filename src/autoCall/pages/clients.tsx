@@ -5,10 +5,12 @@ import { columnsClients } from "@/autoCall/components/Table/columnsClients";
 import { DataTable } from "@/autoCall/components/Table/data-table";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Client } from '../components/Interfaces/Clients';
+import { usePermissions } from "@/auth/Permissions/usePermissions";
 
 export const Clients = () => {
   const [dataClients, setDataclients] = useState([]);
   const { logout } = useContext(AuthContext);  
+  const { hasPermission } = usePermissions()
 
   const fetchData = useCallback(async () => {
     try {
@@ -28,7 +30,9 @@ export const Clients = () => {
   }, [fetchData]);
   return (
     <div>
-      <FormsClient onSuccess={fetchData} />
+      {hasPermission('clients', 'create') && (
+        <FormsClient onSuccess={fetchData} />
+      )}
       <DataTable
         columns={columnsClients(fetchData)}
         data={dataClients}
